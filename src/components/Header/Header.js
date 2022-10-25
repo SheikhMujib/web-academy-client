@@ -1,22 +1,39 @@
-import React from 'react';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import { Link, NavLink } from 'react-router-dom';
+import React from "react";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import { Link, NavLink } from "react-router-dom";
 
 const Header = () => {
-    return (
-        <div>
-            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+  return (
+    <Navbar
+      collapseOnSelect
+      expand="lg"
+      bg="dark"
+      variant="dark"
+      className="fs-5"
+    >
       <Container>
-        <Navbar.Brand as={Link} to="/">Web Academy</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/" className="fs-3">
+          Web Academy
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
             <Link></Link>
             <NavLink></NavLink>
-            <Nav.Link as={Link} to="/home">Home</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
+            <Nav.Link as={NavLink} to="/home">
+              Home
+            </Nav.Link>
+            <Nav.Link as={NavLink} to="/courses">
+              Courses
+            </Nav.Link>
+            <Nav.Link as={NavLink} to="/faq">
+              FAQ
+            </Nav.Link>
+            <Nav.Link as={NavLink} to="/blog">
+              Blog
+            </Nav.Link>
           </Nav>
           <Nav>
             <Nav.Link href="#deets">More deets</Nav.Link>
@@ -27,8 +44,7 @@ const Header = () => {
         </Navbar.Collapse>
       </Container>
     </Navbar>
-        </div>
-    );
+  );
 };
 
 export default Header;
