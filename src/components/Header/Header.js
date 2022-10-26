@@ -9,7 +9,13 @@ import Image from "react-bootstrap/Image";
 import { FaUser } from "react-icons/fa";
 
 const Header = () => {
-  const { user } = useContext(AuthContext);
+  const { user, logOut } = useContext(AuthContext);
+
+  const handleLogOut = ()=>{
+    logOut()
+    .then(()=>{})
+    .catch(error=>console.error(error))
+  }
 
   return (
     <Navbar
@@ -42,14 +48,25 @@ const Header = () => {
             </Nav.Link>
           </Nav>
           <Nav>
-            <Nav.Link as={NavLink} to="/login">
-              Login
-            </Nav.Link>
             <Nav.Link href="#memes">
-              {user?.photoURL ?
+{
+  user?.uid ?
+  <>
+  {user?.photoURL ?
             <Image style={{height: '40px'}} roundedCircle src={user?.photoURL}></Image>
             : <FaUser></FaUser>
             }
+            <button onClick={handleLogOut} type="button" className="btn btn-outline-warning ms-2">Log Out</button>
+  </>
+  :
+  <>
+  <Nav.Link as={NavLink} to="/login">
+              Login
+            </Nav.Link>
+  </>
+}
+
+              
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
