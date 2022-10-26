@@ -14,7 +14,7 @@ const Header = () => {
       className="fs-5"
     >
       <Container>
-        <Navbar.Brand as={Link} to="/" className="fs-3">
+        <Navbar.Brand as={Link} to="/" className="fs-2">
           Web Academy
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -36,7 +36,7 @@ const Header = () => {
             </Nav.Link>
           </Nav>
           <Nav>
-            <Nav.Link href="#deets">More deets</Nav.Link>
+            <Nav.Link as={NavLink} to="/login">Login</Nav.Link>
             <Nav.Link eventKey={2} href="#memes">
               Dank memes
             </Nav.Link>
