@@ -3,6 +3,7 @@ import { Container } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { FaGithub, FaGoogle } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   return (
@@ -10,7 +11,7 @@ const Login = () => {
       <div className="row d-flex justify-content-center mt-5 py-5 px-2 mx-2 w-50 mx-auto bg-light">
         <Form>
           <div className="text-center">
-            <h2>Login</h2>
+            <h2 className="fw-bold fs-1">Log in</h2>
             <p>Please, Log in to access your account</p>
           </div>
           <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -30,7 +31,7 @@ const Login = () => {
           </Form.Group>
           <div className="d-grid">
             <Button variant="dark" type="submit">
-              Login
+              Log in
             </Button>
           </div>
           <p>Forgot password?</p>
@@ -42,17 +43,19 @@ const Login = () => {
               <div className="col d-flex justify-content-center">
                 <div>
                   <button type="button" className="btn btn-light me-2">
-                   <FaGoogle></FaGoogle> Google
+                    <FaGoogle></FaGoogle> Google
                   </button>
                 </div>
                 <div>
                   <button type="button" className="btn btn-light">
-                   <FaGithub></FaGithub> GitHub
+                    <FaGithub></FaGithub> GitHub
                   </button>
                 </div>
               </div>
               <div className="col">
-                <p>Don't have an account yet? Sign up.</p>
+                <p>
+                  Don't have an account yet? <Link to="/register">Create Account</Link>
+                </p>
               </div>
             </div>
           </div>
