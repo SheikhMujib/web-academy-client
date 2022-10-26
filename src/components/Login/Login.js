@@ -1,11 +1,27 @@
+import { GoogleAuthProvider } from "firebase/auth";
 import React from "react";
+import { useContext } from "react";
 import { Container } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { FaGithub, FaGoogle } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
 
 const Login = () => {
+  const { providerLogin } = useContext(AuthContext);
+
+  const googleProvider = new GoogleAuthProvider()
+
+  const handleGoogleSignIn = () => {
+    providerLogin(googleProvider)
+    .then(result=> {
+      const user = result.user
+      console.log(user)
+    })
+    .catch(error=>console.error(error))
+  };
+
   return (
     <Container>
       <div className="row d-flex justify-content-center mt-5 py-5 px-2 mx-2 w-50 mx-auto bg-light">
@@ -42,7 +58,11 @@ const Login = () => {
               </div>
               <div className="col d-flex justify-content-center">
                 <div>
-                  <button type="button" className="btn btn-light me-2">
+                  <button
+                    onClick={handleGoogleSignIn}
+                    type="button"
+                    className="btn btn-light me-2"
+                  >
                     <FaGoogle></FaGoogle> Google
                   </button>
                 </div>
@@ -54,7 +74,8 @@ const Login = () => {
               </div>
               <div className="col">
                 <p>
-                  Don't have an account yet? <Link to="/register">Create Account</Link>
+                  Don't have an account yet?{" "}
+                  <Link to="/register">Create Account</Link>
                 </p>
               </div>
             </div>
