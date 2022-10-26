@@ -7,6 +7,7 @@ import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
 import Image from "react-bootstrap/Image";
 import { FaUser } from "react-icons/fa";
+import logo from '../../logo.png'
 
 const Header = () => {
   const { user, logOut } = useContext(AuthContext);
@@ -17,6 +18,7 @@ const Header = () => {
     .catch(error=>console.error(error))
   }
 
+
   return (
     <Navbar
       collapseOnSelect
@@ -26,6 +28,9 @@ const Header = () => {
       className="fs-5"
     >
       <Container>
+        <Navbar.Brand as={Link} to="/" className="fs-2">
+          <Image fluid thumbnail src={logo}></Image>
+        </Navbar.Brand>
         <Navbar.Brand as={Link} to="/" className="fs-2">
           Web Academy
         </Navbar.Brand>
@@ -53,7 +58,7 @@ const Header = () => {
   user?.uid ?
   <>
   {user?.photoURL ?
-            <Image style={{height: '40px'}} roundedCircle src={user?.photoURL}></Image>
+            <Image title={user?.displayName} style={{height: '40px'}} roundedCircle src={user?.photoURL}></Image>
             : <FaUser></FaUser>
             }
             <button onClick={handleLogOut} type="button" className="btn btn-outline-warning ms-2">Log Out</button>
@@ -61,8 +66,8 @@ const Header = () => {
   :
   <>
   <Nav.Link as={NavLink} to="/login">
-              Login
-            </Nav.Link>
+  <button type="button" className="btn btn-outline-success">Login</button>
+  </Nav.Link>
   </>
 }
 
