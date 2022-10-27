@@ -7,17 +7,16 @@ import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
 import Image from "react-bootstrap/Image";
 import { FaUser } from "react-icons/fa";
-import logo from '../../logo.png'
+import logo from "../../logo.png";
 
 const Header = () => {
   const { user, logOut } = useContext(AuthContext);
 
-  const handleLogOut = ()=>{
+  const handleLogOut = () => {
     logOut()
-    .then(()=>{})
-    .catch(error=>console.error(error))
-  }
-
+      .then(() => {})
+      .catch((error) => console.error(error));
+  };
 
   return (
     <Navbar
@@ -54,24 +53,35 @@ const Header = () => {
           </Nav>
           <Nav>
             <Nav.Link href="#memes">
-{
-  user?.uid ?
-  <>
-  {user?.photoURL ?
-            <Image title={user?.displayName} style={{height: '40px'}} roundedCircle src={user?.photoURL}></Image>
-            : <FaUser></FaUser>
-            }
-            <button onClick={handleLogOut} type="button" className="btn btn-outline-warning ms-2">Log Out</button>
-  </>
-  :
-  <>
-  <Nav.Link as={NavLink} to="/login">
-  <button type="button" className="btn btn-outline-success">Login</button>
-  </Nav.Link>
-  </>
-}
-
-              
+              {user?.uid ? (
+                <>
+                  {user?.photoURL ? (
+                    <Image
+                      title={user?.displayName}
+                      style={{ height: "40px" }}
+                      roundedCircle
+                      src={user?.photoURL}
+                    ></Image>
+                  ) : (
+                    <FaUser></FaUser>
+                  )}
+                  <button
+                    onClick={handleLogOut}
+                    type="button"
+                    className="btn btn-outline-warning ms-2"
+                  >
+                    Log Out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Nav.Link as={NavLink} to="/login">
+                    <button type="button" className="btn btn-outline-success">
+                      Login
+                    </button>
+                  </Nav.Link>
+                </>
+              )}
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
