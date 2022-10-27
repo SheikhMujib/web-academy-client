@@ -1,17 +1,21 @@
 import { GithubAuthProvider, GoogleAuthProvider } from "firebase/auth";
 import React from "react";
+import { useState } from "react";
 import { useContext } from "react";
 import { Container } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { FaGithub, FaGoogle } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
 
 const Login = () => {
-
+  const [error, setError] = useState("");
   const { providerLogin, signIn } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || '/'
 
   const googleProvider = new GoogleAuthProvider();
   const githubProvider = new GithubAuthProvider();
@@ -22,17 +26,23 @@ const Login = () => {
         const user = result.user;
         console.log(user);
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        setError(error.message);
+      });
   };
 
-  const handleGitHubSignIn =()=>{
+  const handleGitHubSignIn = () => {
     providerLogin(githubProvider)
-    .then(result =>{
-      const user =result.user;
-      console.log(user)
-    })
-    .catch(error=>console.error(error))
-  }
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        console.error(error);
+        setError(error.message);
+      });
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -45,9 +55,13 @@ const Login = () => {
         const user = result.user;
         console.log(user);
         form.reset();
-        navigate('/')
+        setError("");
+        navigate(from, {replace: true});
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        setError(error.message);
+      });
   };
 
   return (
@@ -84,9 +98,7 @@ const Login = () => {
             </Button>
           </div>
           <p>Forgot password?</p>
-          <Form.Text className="text-danger">
-            We'll never share your email with anyone else.
-          </Form.Text>
+          <Form.Text className="text-danger">{error}</Form.Text>
           <div className="container text-center">
             <div className="row row-cols-1">
               <div className="col">
@@ -103,7 +115,11 @@ const Login = () => {
                   </button>
                 </div>
                 <div>
-                  <button onClick={handleGitHubSignIn} type="button" className="btn btn-light">
+                  <button
+                    onClick={handleGitHubSignIn}
+                    type="button"
+                    className="btn btn-light"
+                  >
                     <FaGithub></FaGithub> GitHub
                   </button>
                 </div>

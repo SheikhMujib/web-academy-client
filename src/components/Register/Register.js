@@ -1,5 +1,6 @@
 import { GithubAuthProvider, GoogleAuthProvider } from "firebase/auth";
 import React from "react";
+import { useState } from "react";
 import { useContext } from "react";
 import { Container } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
@@ -9,6 +10,8 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
 
 const Register = () => {
+  const [error, setError] = useState("");
+
   const { createUser, providerLogin } = useContext(AuthContext);
 
   const googleProvider = new GoogleAuthProvider();
@@ -19,18 +22,26 @@ const Register = () => {
       .then((result) => {
         const user = result.user;
         console.log(user);
+        setError("");
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        setError(error.message);
+      });
   };
 
-  const handleGitHubSignIn =()=>{
+  const handleGitHubSignIn = () => {
     providerLogin(githubProvider)
-    .then(result =>{
-      const user =result.user;
-      console.log(user)
-    })
-    .catch(error=>console.error(error))
-  }
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        setError("");
+      })
+      .catch((error) => {
+        console.error(error);
+        setError(error.message);
+      });
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -42,12 +53,16 @@ const Register = () => {
     console.log(name, photoURL, email, password);
 
     createUser(email, password)
-    .then(result =>{
-      const user = result.user;
-      console.log(user)
-      form.reset()
-    })
-    .catch(error=>console.error(error))
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        form.reset();
+        setError("");
+      })
+      .catch((error) => {
+        console.error(error);
+        setError(error.message);
+      });
   };
 
   return (
@@ -105,7 +120,7 @@ const Register = () => {
           </div>
           <p>Forgot password?</p>
           <Form.Text className="text-danger">
-            We'll never share your email with anyone else.
+            {error}
           </Form.Text>
           <div className="container text-center">
             <div className="row row-cols-1">
@@ -114,12 +129,20 @@ const Register = () => {
               </div>
               <div className="col d-flex justify-content-center">
                 <div>
-                  <button onClick={handleGoogleSignIn} type="button" className="btn btn-light me-2">
+                  <button
+                    onClick={handleGoogleSignIn}
+                    type="button"
+                    className="btn btn-light me-2"
+                  >
                     <FaGoogle></FaGoogle> Google
                   </button>
                 </div>
                 <div>
-                  <button onClick={handleGitHubSignIn} type="button" className="btn btn-light">
+                  <button
+                    onClick={handleGitHubSignIn}
+                    type="button"
+                    className="btn btn-light"
+                  >
                     <FaGithub></FaGithub> GitHub
                   </button>
                 </div>
