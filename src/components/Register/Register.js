@@ -1,3 +1,4 @@
+import { GithubAuthProvider, GoogleAuthProvider } from "firebase/auth";
 import React from "react";
 import { useContext } from "react";
 import { Container } from "react-bootstrap";
@@ -8,7 +9,28 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
 
 const Register = () => {
-  const { createUser } = useContext(AuthContext);
+  const { createUser, providerLogin } = useContext(AuthContext);
+
+  const googleProvider = new GoogleAuthProvider();
+  const githubProvider = new GithubAuthProvider();
+
+  const handleGoogleSignIn = () => {
+    providerLogin(googleProvider)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+      })
+      .catch((error) => console.error(error));
+  };
+
+  const handleGitHubSignIn =()=>{
+    providerLogin(githubProvider)
+    .then(result =>{
+      const user =result.user;
+      console.log(user)
+    })
+    .catch(error=>console.error(error))
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -92,12 +114,12 @@ const Register = () => {
               </div>
               <div className="col d-flex justify-content-center">
                 <div>
-                  <button type="button" className="btn btn-light me-2">
+                  <button onClick={handleGoogleSignIn} type="button" className="btn btn-light me-2">
                     <FaGoogle></FaGoogle> Google
                   </button>
                 </div>
                 <div>
-                  <button type="button" className="btn btn-light">
+                  <button onClick={handleGitHubSignIn} type="button" className="btn btn-light">
                     <FaGithub></FaGithub> GitHub
                   </button>
                 </div>

@@ -1,4 +1,4 @@
-import { GoogleAuthProvider } from "firebase/auth";
+import { GithubAuthProvider, GoogleAuthProvider } from "firebase/auth";
 import React from "react";
 import { useContext } from "react";
 import { Container } from "react-bootstrap";
@@ -9,10 +9,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
 
 const Login = () => {
+
   const { providerLogin, signIn } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const googleProvider = new GoogleAuthProvider();
+  const githubProvider = new GithubAuthProvider();
 
   const handleGoogleSignIn = () => {
     providerLogin(googleProvider)
@@ -22,6 +24,15 @@ const Login = () => {
       })
       .catch((error) => console.error(error));
   };
+
+  const handleGitHubSignIn =()=>{
+    providerLogin(githubProvider)
+    .then(result =>{
+      const user =result.user;
+      console.log(user)
+    })
+    .catch(error=>console.error(error))
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -92,7 +103,7 @@ const Login = () => {
                   </button>
                 </div>
                 <div>
-                  <button type="button" className="btn btn-light">
+                  <button onClick={handleGitHubSignIn} type="button" className="btn btn-light">
                     <FaGithub></FaGithub> GitHub
                   </button>
                 </div>
